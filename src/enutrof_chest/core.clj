@@ -1,7 +1,9 @@
 (ns enutrof-chest.core
   (:require [ring.adapter.jetty :as jetty]
             [ring.middleware.reload :refer [wrap-reload]]
-            [compojure.core :refer [defroutes GET]]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+            [ring.middleware.json.wrap-json-params :refer [wrap-json-params]]
+            [compojure.core :refer [defroutes GET POST]]
             [compojure.route :refer [not-found]])
 
   (:gen-class))
@@ -42,8 +44,15 @@
 
    :headers {}})
 
+(defn calcula-valor-futuro [req]
+  (println req)
+  {:status 200
+   :body "Teste"})
+  ;(let [valor-presente (get-in req [:params :])]))
+
 (defroutes my-routes
            (GET "/" [] welcome)
+           (POST "/calcula-valor-futuro" [] calcula-valor-futuro)
            (GET "/request-info" [] request-info)
            (GET "/:nome/bem-vindo" [] bem-vindo)
            (GET "/:op1/:op/:op2/calculadora-basica" [] calculadora-basica)
@@ -54,4 +63,4 @@
 ;  (jetty/run-jetty (my-routes) {:port (Integer. port-number)}))
 
 (defn dev-main [port-number]
-  (jetty/run-jetty (wrap-reload #'my-routes) {:port (Integer. port-number)}))
+  (jetty/run-jetty (wrap-json-params (wrap-keywords-params (wrap-reload #'my-routes) ) ) {:port (Integer. port-number)}))
