@@ -5,15 +5,19 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[cheshire "5.9.0"]
                  [compojure "1.6.1"]
-                 [http-kit "2.1.16"]
+                 [environ "1.2.0"]
+                 [org.clojure/data.json "1.0.0"]
                  [org.clojure/clojure "1.8.0"]
-                 [ring "1.7.1"]
+                 [ring "1.8.1"]
+                 [camel-snake-kebab "0.4.2"]
                  [ring/ring-json "0.5.0"]
+                 ;[ring-cors "0.1.13"]
                  [ring/ring-defaults "0.3.2"]]
-  :plugins [[lein-ring "0.12.5"]]
+  :plugins [[lein-ring "0.12.5"]
+            [lein-environ "1.2.0"]]
   :main enutrof-chest.core
-  :profiles {
-             :dev {:main enutrof-chest.core/dev-main}}
+  :profiles {:dev [:project/dev :profiles/dev]
+             :profiles/dev  {}}
   :ring  {:handler enutrof-chest.web/app
           :port 5000})
 

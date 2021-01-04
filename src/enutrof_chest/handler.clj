@@ -21,13 +21,17 @@
              :body    (pr-str request)
              :headers {}})
 
-(defn converte-rendimento-anual-mensal
+(defn conversao-juros
   "Faz conversão de juros anual para mensal"
   [request]
+  (println "**********REQUEST-HANDLER" request)
   {:status  200
-   :body    {:juros-mensais-equivalentes (let [juros-anuais (BigDecimal. (get-in request [:route-params :juros-anuais]))]
-                                              (println (/ juros-anuais 100))
-                                              (* (converter-rendimento-anual-mensal (/ juros-anuais 100)) 100))}
+   :body    (let [taxa-juros (BigDecimal. (get-in request [:body :taxa-juros]))
+                  tipo-taxa (get-in request [:body :tipo-taxa])]
+              (println (get-in request [:body]))
+              (if (= tipo-taxa "MENSAL")
+                (str (juro-mensal->juro-anual taxa-juros))
+                (str (juro-anual->juro-mensal taxa-juros))))
    :headers {}})
 
 (defn calcula-valor-futuro [req]
