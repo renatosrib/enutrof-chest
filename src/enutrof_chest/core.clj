@@ -10,9 +10,23 @@
   (* valor-aplicado (Math/pow (+ 1 taxa-juros) periodo)))
 
 (defn
-  converter-rendimento-anual-mensal
+  juro-anual->juro-mensal
+
   "Converte juros anuais para mensais usando a seguinte fórmula: juros-mensais = ((1 + juros-anuais) ^ (1/12)) -1"
   [ juros-anuais]
-  (- (Math/pow (+ 1 juros-anuais) (/ 1 12)) 1))
+  (println "Calculando juros mensais...." juros-anuais)
+  (* (- (Math/pow (+ 1 (/ juros-anuais 100)) (/ 1 12)) 1) 100))
+
+(defn
+  juro-mensal->juro-anual
+  "Converte juros anuais para mensais usando a seguinte fórmula: juros-mensais = ((1 + juros-anuais) ^ (1/12)) -1"
+  [juros-mensais]
+  (println "Calculando juros anuais...." juros-mensais)
+  (* (- (Math/pow (+ 1 (/ juros-mensais 100)) 12) 1) 100))
+
+
+
+
+
 
 
